@@ -26,6 +26,15 @@ python handler.py
 
 ### RunPod Deployment
 
+**Option 1: Using Custom Dockerfile**
+1. Create a new serverless endpoint on RunPod
+2. Upload this repository as a zip file
+3. Set handler path to: `handler`
+4. Select GPU: RTX 4000
+5. Use the provided Dockerfile (automatically detected)
+6. Configure environment variables if needed
+
+**Option 2: Using Pre-built Image**
 1. Create a new serverless endpoint on RunPod
 2. Upload this repository as a zip file
 3. Set handler path to: `handler`
