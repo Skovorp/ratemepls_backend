@@ -10,7 +10,7 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 ENV PYTHONUNBUFFERED=1
 
-RUN python cache_model.py 
+# RUN python cache_model.py 
 
 CMD ["python", "handler.py"]
 
