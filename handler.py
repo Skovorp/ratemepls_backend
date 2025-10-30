@@ -36,7 +36,7 @@ def make_transform(resize_size):
 
 
 def inference_model(image):
-    device = 'mps'
+    device = 'cuda'
     my_transform = make_transform(512)
     model = AutoModel.from_pretrained(MODEL_NAME).to(device)
     image = my_transform(image)
