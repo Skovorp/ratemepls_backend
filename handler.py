@@ -6,6 +6,7 @@ import torch
 from transformers import AutoModel
 import traceback
 from torchvision.transforms import v2
+import random
 
 MODEL_NAME = "facebook/dinov3-vits16-pretrain-lvd1689m" 
 
@@ -64,8 +65,10 @@ def handler(event):
         image = base64_to_image(base64_image)
         result = inference_model(image)
         
+        out = round(random.betavariate(3, 3) * 100, 2)
+        
         return {
-            "avg_pooling_vector": result
+            "avg_pooling_vector": out
         }
         
     except Exception:
