@@ -9,7 +9,7 @@ class HotModel(nn.Module):
     def __init__(self, backbone='facebook/dinov3-vit7b16-pretrain-lvd1689m', bb_dim=4096) -> None:
         super().__init__()
         self.backbone = AutoModel.from_pretrained(backbone)
-        # self.backbone = AutoModel.from_config(AutoConfig.from_pretrained(backbone))/
+        # self.backbone = AutoModel.from_config(AutoConfig.from_pretrained(backbone))
         self.proj = nn.Sequential(
             nn.Dropout(0.5),
             nn.Linear(bb_dim, 2 * bb_dim),
