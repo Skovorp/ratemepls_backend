@@ -3,12 +3,10 @@ import io
 import runpod
 from PIL import Image
 import torch
-from transformers import AutoModel
 import traceback
 from torchvision.transforms import v2
 import random
-
-MODEL_NAME = "facebook/dinov3-vits16-pretrain-lvd1689m" 
+from model import HotModel
 
 def base64_to_image(base64_string):
     """Convert base64 string to PIL Image."""
@@ -37,16 +35,18 @@ def make_transform(resize_size):
 
 
 def inference_model(image):
-    device = 'cuda'
+    device = 'cpu'
     my_transform = make_transform(512)
-    model = AutoModel.from_pretrained(MODEL_NAME).to(device)
+    model = HotModel().to(device)
     image = my_transform(image)
     image = image.unsqueeze(0).to(device)
     
     with torch.no_grad():
-        out = model(image).pooler_output
-        out = out.mean().item()
+        out = model(image).item()
         return out
+    
+def score_to_percentile(x):
+    return 50
 
 def handler(event):
     """
@@ -63,12 +63,12 @@ def handler(event):
             }
         
         image = base64_to_image(base64_image)
-        result = inference_model(image)
-        
-        out = round(random.betavariate(3, 3) * 100, 2)
+        score = inference_model(image)
+        perc = score_to_percentile(score)
         
         return {
-            "avg_pooling_vector": out
+            "raw_score": score,
+            "percentile": perc
         }
         
     except Exception:
@@ -79,5 +79,3 @@ def handler(event):
 
 if __name__ == "__main__":
     runpod.serverless.start({"handler": handler})
-
-

@@ -5,6 +5,7 @@ This simulates what RunPod will send to the handler.
 
 import base64
 from handler import handler
+import os
 
 # Load a test image (replace with your own image path)
 def load_test_image():
