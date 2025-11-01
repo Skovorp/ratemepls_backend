@@ -35,15 +35,16 @@ def make_transform(resize_size):
 
 
 def inference_model(image):
-    device = 'cpu'
+    device = 'cuda'
     my_transform = make_transform(512)
     model = HotModel().to(device)
     image = my_transform(image)
     image = image.unsqueeze(0).to(device)
     
     with torch.no_grad():
-        out = model(image).item()
-        return out
+        with torch.autocast('cuda', dtype=torch.bfloat16):
+            out = model(image).float().item()
+            return out
     
 def score_to_percentile(x):
     return 50
