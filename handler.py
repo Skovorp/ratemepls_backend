@@ -45,9 +45,13 @@ def inference_model(image):
         with torch.autocast('cuda', dtype=torch.bfloat16):
             out = model(image).float().item()
             return out
-    
+
 def score_to_percentile(x):
-    return 50
+    with open('simple_scores.json', 'r') as f:
+        data = json.load(f)
+    t = torch.tensor(data)
+    percentile = (t < x).float().mean()
+    return percentile
 
 def handler(event):
     """
