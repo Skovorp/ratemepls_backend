@@ -51,7 +51,7 @@ def score_to_percentile(x):
     with open('simple_scores.json', 'r') as f:
         data = json.load(f)
     t = torch.tensor(data)
-    percentile = (t < x).float().mean()
+    percentile = (t < x).float().mean().float().item()
     return percentile
 
 def handler(event):
