@@ -7,6 +7,7 @@ import traceback
 from torchvision.transforms import v2
 import random
 from model import HotModel
+import json
 
 def base64_to_image(base64_string):
     """Convert base64 string to PIL Image."""
